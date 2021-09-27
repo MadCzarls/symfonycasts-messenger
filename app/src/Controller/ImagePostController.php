@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\ImagePost;
 use App\Message\AddPonkaToImage;
+use App\Message\DeleteImagePost;
 use App\Photo\PhotoFileManager;
 use App\Repository\ImagePostRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -69,13 +70,10 @@ class ImagePostController extends AbstractController
     #[Route('/api/images/{id}', methods: ['DELETE'])]
     public function delete(
         ImagePost $imagePost,
-        EntityManagerInterface $entityManager,
-        PhotoFileManager $photoManager
+        MessageBusInterface $messageBus
     ): Response {
-        $photoManager->deleteImage($imagePost->getFilename());
-
-        $entityManager->remove($imagePost);
-        $entityManager->flush();
+        $message = new DeleteImagePost($imagePost);
+        $messageBus->dispatch($message);
 
         return new Response(null, 204);
     }
