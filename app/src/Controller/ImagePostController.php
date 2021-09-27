@@ -7,7 +7,6 @@ namespace App\Controller;
 use App\Entity\ImagePost;
 use App\Message\AddPonkaToImage;
 use App\Photo\PhotoFileManager;
-use App\Photo\PhotoPonkaficator;
 use App\Repository\ImagePostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,12 +38,8 @@ class ImagePostController extends AbstractController
         ValidatorInterface $validator,
         PhotoFileManager $photoManager,
         EntityManagerInterface $entityManager,
-        PhotoPonkaficator $ponkaficator,
         MessageBusInterface $messageBus
     ): JsonResponse {
-        $message = new AddPonkaToImage();
-        $messageBus->dispatch($message);
-        
         /** @var UploadedFile $imageFile */
         $imageFile = $request->files->get('file');
 
@@ -65,18 +60,8 @@ class ImagePostController extends AbstractController
         $entityManager->persist($imagePost);
         $entityManager->flush();
 
-        /*
-         * Start Ponkafication!
-         */
-        $updatedContents = $ponkaficator->ponkafy(
-            $photoManager->read($imagePost->getFilename())
-        );
-        $photoManager->update($imagePost->getFilename(), $updatedContents);
-        $imagePost->markAsPonkaAdded();
-        $entityManager->flush();
-        /*
-         * You've been Ponkafied!
-         */
+        $message = new AddPonkaToImage($imagePost);
+        $messageBus->dispatch($message);
 
         return $this->toJson($imagePost, 201);
     }
