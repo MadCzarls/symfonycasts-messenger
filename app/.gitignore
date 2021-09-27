@@ -1,0 +1,31 @@
+/.idea
+
+###
+
+logs/*
+bin/.phpunit
+docker-compose.yml
+
+###
+
+app/bin/.phpunit
+app/vendor
+app/var
+app/public_html/bundles/
+!app/.env
+app/.env.*
+
+app/.phpunit
+app/.phpunit.result.cache
+app/phpunit.xml
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public_html/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
