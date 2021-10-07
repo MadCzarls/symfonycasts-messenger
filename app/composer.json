@@ -1,7 +1,7 @@
 {
     "name": "madczarls/symfonycasts-messenger",
     "type": "project",
-    "description": "Sandbox for Symfony Messeneger learning - PHP 8 and Symfony 5.3",
+    "description": "Sandbox for Symfony Messenger learning - PHP 8 and Symfony 5.3",
     "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,
