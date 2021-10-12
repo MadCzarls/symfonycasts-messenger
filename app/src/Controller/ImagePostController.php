@@ -72,7 +72,7 @@ class ImagePostController extends AbstractController
         ImagePost $imagePost,
         MessageBusInterface $messageBus
     ): Response {
-        $message = new DeleteImagePost($imagePost);
+        $message = new DeleteImagePost($imagePost->getId());
         $messageBus->dispatch($message);
 
         return new Response(null, 204);
