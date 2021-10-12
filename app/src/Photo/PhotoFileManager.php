@@ -63,9 +63,6 @@ class PhotoFileManager
 
     public function deleteImage(string $filename): void
     {
-        // make it a bit slow
-        sleep(3);
-
         $this->filesystem->delete($filename);
     }
 
