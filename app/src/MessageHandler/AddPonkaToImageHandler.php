@@ -41,7 +41,7 @@ class AddPonkaToImageHandler implements MessageHandlerInterface, LoggerAwareInte
         $imagePostId = $addPonkaToImage->getImagePostId();
         $imagePost = $this->imagePostRepository->find($imagePostId);
 
-        if ($imagePost) {
+        if (!$imagePost) {
             //could throw an exception but the message would be retried which we don't want here
             //or return and this message will be discarded
 
