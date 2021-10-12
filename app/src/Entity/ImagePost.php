@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -16,36 +18,36 @@ class ImagePost
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("image:output")
      */
-    private $id;
+    #[Groups('image:output')]
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $filename;
+    private ?string $filename;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("image:output")
      */
-    private $originalFilename;
+    #[Groups('image:output')]
+    private ?string $originalFilename;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups("image:output")
      */
+    #[Groups('image:output')]
     private $ponkaAddedAt;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups("image:output")
      */
+    #[Groups('image:output')]
     private $createdAt;
 
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -77,19 +79,19 @@ class ImagePost
         return $this;
     }
 
-    public function getPonkaAddedAt(): ?\DateTimeInterface
+    public function getPonkaAddedAt(): ?DateTimeInterface
     {
         return $this->ponkaAddedAt;
     }
 
     public function markAsPonkaAdded(): self
     {
-        $this->ponkaAddedAt = new \DateTimeImmutable();
+        $this->ponkaAddedAt = new DateTimeImmutable();
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }

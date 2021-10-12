@@ -13,21 +13,28 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class ImagePostNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    private $normalizer;
-    private $uploaderManager;
-    private $router;
+    private ObjectNormalizer $normalizer;
+    private PhotoFileManager $uploaderManager;
+    private UrlGeneratorInterface $router;
 
-    public function __construct(ObjectNormalizer $normalizer, PhotoFileManager $uploaderManager, UrlGeneratorInterface $router)
-    {
+    public function __construct(
+        ObjectNormalizer $normalizer,
+        PhotoFileManager $uploaderManager,
+        UrlGeneratorInterface $router
+    ) {
         $this->normalizer = $normalizer;
         $this->uploaderManager = $uploaderManager;
         $this->router = $router;
     }
 
     /**
-     * @param ImagePost $imagePost
+     * @param ImagePost   $imagePost
+     * @param string|null $format
+     * @param mixed[]     $context
+     *
+     * @return mixed[]
      */
-    public function normalize($imagePost, $format = null, array $context = array()): array
+    public function normalize($imagePost, $format = null, array $context = []): array
     {
         $data = $this->normalizer->normalize($imagePost, $format, $context);
 
@@ -42,6 +49,10 @@ class ImagePostNormalizer implements NormalizerInterface, CacheableSupportsMetho
         return $data;
     }
 
+    /**
+     * @param mixed       $data
+     * @param string|null $format
+     */
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof ImagePost;
