@@ -5,15 +5,26 @@ declare(strict_types=1);
 namespace App\Photo;
 
 use App\Entity\ImagePost;
+use Exception;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+use function fclose;
+use function fopen;
+use function is_resource;
+use function pathinfo;
+use function sleep;
+use function sprintf;
+use function uniqid;
+
+use const PATHINFO_FILENAME;
+
 class PhotoFileManager
 {
-    private $filesystem;
-    private $publicAssetBaseUrl;
+    private FilesystemInterface $filesystem;
+    private string $publicAssetBaseUrl;
 
     public function __construct(FilesystemInterface $photoFilesystem, string $publicAssetBaseUrl)
     {
@@ -21,7 +32,7 @@ class PhotoFileManager
         $this->publicAssetBaseUrl = $publicAssetBaseUrl;
     }
 
-    public function uploadImage(File $file)
+    public function uploadImage(File $file): string
     {
         if ($file instanceof UploadedFile) {
             $originalFilename = $file->getClientOriginalName();
@@ -29,18 +40,18 @@ class PhotoFileManager
             $originalFilename = $file->getFilename();
         }
 
-        $newFilename = pathinfo($originalFilename, PATHINFO_FILENAME).'-'.uniqid().'.'.$file->guessExtension();
+        $newFilename = pathinfo($originalFilename, PATHINFO_FILENAME) . '-' . uniqid() . '.' . $file->guessExtension();
         $stream = fopen($file->getPathname(), 'r');
         $result = $this->filesystem->writeStream(
             $newFilename,
             $stream,
             [
-                'visibility' => AdapterInterface::VISIBILITY_PUBLIC
+                'visibility' => AdapterInterface::VISIBILITY_PUBLIC,
             ]
         );
 
         if ($result === false) {
-            throw new \Exception(sprintf('Could not write uploaded file "%s"', $newFilename));
+            throw new Exception(sprintf('Could not write uploaded file "%s"', $newFilename));
         }
 
         if (is_resource($stream)) {
@@ -60,7 +71,7 @@ class PhotoFileManager
 
     public function getPublicPath(ImagePost $imagePost): string
     {
-        return $this->publicAssetBaseUrl.'/'.$imagePost->getFilename();
+        return $this->publicAssetBaseUrl . '/' . $imagePost->getFilename();
     }
 
     public function read(string $filename): string

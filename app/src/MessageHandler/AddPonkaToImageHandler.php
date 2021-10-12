@@ -39,7 +39,7 @@ class AddPonkaToImageHandler implements MessageHandlerInterface, LoggerAwareInte
     public function __invoke(AddPonkaToImage $addPonkaToImage): void
     {
         $imagePostId = $addPonkaToImage->getImagePostId();
-        $imagePost = $this->imagePostRepository->find($imagePostId); //@TODO validation?
+        $imagePost = $this->imagePostRepository->find($imagePostId);
 
         if ($imagePost) {
             //could throw an exception but the message would be retried which we don't want here

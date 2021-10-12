@@ -10,14 +10,21 @@ use Intervention\Image\ImageManager;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\Finder\Finder;
 
+use function array_rand;
+use function iterator_to_array;
+use function sleep;
+
 class PhotoPonkaficator
 {
-    private $entityManager;
-    private $imageManager;
-    private $photoFilesystem;
+    private EntityManagerInterface $entityManager;
+    private ImageManager $imageManager;
+    private FilesystemInterface $photoFilesystem;
 
-    public function __construct(EntityManagerInterface $entityManager, ImageManager $imageManager, FilesystemInterface $photoFilesystem)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        ImageManager $imageManager,
+        FilesystemInterface $photoFilesystem
+    ) {
         $this->entityManager = $entityManager;
         $this->imageManager = $imageManager;
         $this->photoFilesystem = $photoFilesystem;
@@ -33,7 +40,7 @@ class PhotoPonkaficator
         $targetWidth = $targetPhoto->width() * .3;
         $targetHeight = $targetPhoto->height() * .4;
 
-        $ponkaPhoto->resize($targetWidth, $targetHeight, function(Constraint $constraint) {
+        $ponkaPhoto->resize($targetWidth, $targetHeight, static function (Constraint $constraint): void {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
@@ -52,7 +59,7 @@ class PhotoPonkaficator
     private function getRandomPonkaFilename(): string
     {
         $finder = new Finder();
-        $finder->in(__DIR__.'/../../assets/ponka')
+        $finder->in(__DIR__ . '/../../assets/ponka')
             ->files();
 
         // array keys are the absolute file paths
