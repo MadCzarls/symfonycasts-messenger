@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\MessageHandler;
 
 use App\Message\DeleteImagePost;
-use App\Photo\PhotoFileManager;
+use App\Message\DeletePhotoFile;
 use App\Repository\ImagePostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 use function sprintf;
 
@@ -17,16 +18,16 @@ class DeleteImagePostHandler implements MessageHandlerInterface
 {
     use LoggerAwareTrait;
 
-    private PhotoFileManager $photoManager;
+    private MessageBusInterface $messageBus;
     private EntityManagerInterface $entityManager;
     private ImagePostRepository $imagePostRepository;
 
     public function __construct(
-        PhotoFileManager $photoManager,
+        MessageBusInterface $messageBus,
         EntityManagerInterface $entityManager,
         ImagePostRepository $imagePostRepository,
     ) {
-        $this->photoManager = $photoManager;
+        $this->messageBus = $messageBus;
         $this->entityManager = $entityManager;
         $this->imagePostRepository = $imagePostRepository;
     }
@@ -45,9 +46,9 @@ class DeleteImagePostHandler implements MessageHandlerInterface
             return;
         }
 
-        $this->photoManager->deleteImage($imagePost->getFilename());
-
         $this->entityManager->remove($imagePost);
         $this->entityManager->flush();
+
+        $this->messageBus->dispatch(new DeletePhotoFile($imagePost->getFilename()));
     }
 }
