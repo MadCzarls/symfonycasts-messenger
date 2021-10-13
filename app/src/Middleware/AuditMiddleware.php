@@ -10,6 +10,8 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
 
+use Symfony\Component\Messenger\Stamp\ReceivedStamp;
+use Symfony\Component\Messenger\Stamp\SentStamp;
 use function get_class;
 
 class AuditMiddleware implements MiddlewareInterface
@@ -35,8 +37,16 @@ class AuditMiddleware implements MiddlewareInterface
             'class' => get_class($envelope->getMessage()),
         ];
 
-        //@TODO log message but only on dispatching, not retrieving from transport (middlewares are triggered in both situations)
+        $envelope = $stack->next()->handle($envelope, $stack);
 
-        return $stack->next()->handle($envelope, $stack);
+        if ($envelope->last(ReceivedStamp::class)) {
+            $this->logger->info('[{id}] Received from transport {class}', $context);
+        } elseif ($envelope->last(SentStamp::class)) {
+            $this->logger->info('[{id}] Sent to transport {class}', $context);
+        } else { //no stamps mean synchronous handling (DeleteImagePostHandler) - no routing (transport) is used
+            $this->logger->info('[{id}] Handling sync {class}', $context);
+        }
+
+        return $envelope;
     }
 }
