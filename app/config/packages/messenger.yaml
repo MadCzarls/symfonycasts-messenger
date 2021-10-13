@@ -14,3 +14,9 @@ framework:
             # Route your messages to the transports
             'App\Message\AddPonkaToImage': async
             'App\Message\DeletePhotoFile': async
+
+        buses:
+            messenger.bus.default:
+                default_middleware: true
+                middleware:
+                    - App\Middleware\AuditMiddleware
