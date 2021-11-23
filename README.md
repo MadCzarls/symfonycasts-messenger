@@ -2,7 +2,59 @@
 
 https://symfonycasts.com/screencast/messenger
 
-Sandbox for getting to know and learn Symfony Messenger component, based on https://symfonycasts.com/screencast/messenger/, but on PHP 8 and Symfony 5.3.
+Sandbox for getting to know and learn Symfony Messenger component, based on https://symfonycasts.com/screencast/messenger/.
+
+**Status: WORK-IN-PROGRESS**
+- [x] Chapter 1
+- [x] Chapter 2
+- [x] Chapter 3
+- [x] Chapter 4
+- [x] Chapter 5
+- [x] Chapter 6
+- [x] Chapter 7
+- [x] Chapter 8
+- [x] Chapter 9
+- [x] Chapter 10
+- [x] Chapter 11
+- [x] Chapter 12
+- [x] Chapter 13
+- [x] Chapter 14
+- [x] Chapter 15
+- [x] Chapter 16
+- [x] Chapter 17
+- [x] Chapter 18
+- [x] Chapter 19
+- [x] Chapter 20
+- [ ] Chapter 21
+- [ ] Chapter 22
+- [ ] Chapter 23
+- [ ] Chapter 24
+- [ ] Chapter 25
+- [ ] Chapter 26
+- [ ] Chapter 27
+- [ ] Chapter 28
+- [ ] Chapter 29
+- [ ] Chapter 30
+- [ ] Chapter 31
+- [ ] Chapter 32
+- [ ] Chapter 33
+- [ ] Chapter 34
+- [ ] Chapter 35
+- [ ] Chapter 36
+- [ ] Chapter 37
+- [ ] Chapter 38
+- [ ] Chapter 39
+- [ ] Chapter 40
+- [ ] Chapter 41
+- [ ] Chapter 42
+- [ ] Chapter 43
+- [ ] Chapter 44
+- [ ] Chapter 45
+- [ ] Chapter 46
+- [ ] Chapter 47
+- [ ] Chapter 48
+
+Running on Docker (utilizing docker-compose) with PHP 8.0 + nginx 1.18 + PostgreSQL. By default includes xdebug extension and PHP_CodeSniffer for easy development and basic configuration for opcache for production. Includes instruction for setting it in PhpStorm.
 
 - https://symfony.com/
 - https://www.docker.com/
