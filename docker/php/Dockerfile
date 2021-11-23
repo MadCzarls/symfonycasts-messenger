@@ -1,7 +1,7 @@
 ARG ENV
 ARG TIMEZONE
 
-FROM php:8.0.11-fpm-buster
+FROM php:8.0.13-fpm-buster
 
 RUN apt-get update
 RUN apt-get install -y \
@@ -35,7 +35,7 @@ RUN docker-php-ext-install -j$(nproc) gd
 ARG ENV
 
 RUN if [ "$ENV" = "dev" ] ; then \
-        pecl install xdebug-3.0.4 && \
+        pecl install xdebug-3.1.1 && \
         docker-php-ext-enable xdebug  \
     ; fi
 
@@ -54,3 +54,5 @@ ARG TIMEZONE
 RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone
 
 WORKDIR /var/www/app
+
+RUN usermod -u 1000 www-data
