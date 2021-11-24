@@ -15,6 +15,7 @@ RUN apt-get install -y \
     unzip \
     postgresql-server-dev-11 \
     gnupg2 \
+    supervisor \
     libfreetype6-dev libjpeg62-turbo-dev libpng-dev
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x  | bash -
@@ -42,6 +43,8 @@ RUN if [ "$ENV" = "dev" ] ; then \
 COPY config/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY config/docker-php-memlimit.ini /usr/local/etc/php/conf.d/docker-php-memlimit.ini
 
+COPY supervisor/* /etc/supervisor/conf.d/
+
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 RUN php composer-setup.php
@@ -56,3 +59,5 @@ RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /et
 WORKDIR /var/www/app
 
 RUN usermod -u 1000 www-data
+
+CMD ["/usr/bin/supervisord"]

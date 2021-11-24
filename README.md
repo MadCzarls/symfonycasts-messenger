@@ -28,7 +28,7 @@ Sandbox for getting to know and learn Symfony Messenger component, based on http
 - [x] Chapter 21
 - [x] Chapter 22
 - [x] Chapter 23
-- [ ] Chapter 24
+- [x] Chapter 24
 - [ ] Chapter 25
 - [ ] Chapter 26
 - [ ] Chapter 27
@@ -102,7 +102,19 @@ php bin/console doctrine:migrations:migrate
 
 From this point forward, application should be available under `http://localhost:8050/`, where port `8050` is default defined in `docker-compose.yml`.
 
-### Running tests
+### A note concerning Supervisor and Chapter 24
+
+To mimic production environment and to follow `Chapter 24` repository contains Supervisor - tool to control processes on your system.
+It is used to run - constantly - Symfony's Messenger's consumer. Configuration is stored in `docker/supervisor/*.conf`.
+
+But since we are using dockerized environment we need to have a `Dockerfile` with `CMD` command to start a Supervisor service. There are a few issues with that:
+* we can have (and probably should) have separate container for Supervisor - but since Messenger's `messenger:consume` command is integral part of Symfony we would need to include another copy of whole application in that container
+* we can have Supervisor installed in the same container as PHP but, because of the way it starts (`CMD` command) it blocks PHP-FPM process from starting (only one `CMD` may be used in `Dockerfile`)
+
+For now, we use the second approach and resolve the issue of not-starting PHP-FPM by starting it automatically on `docker-compose up` with using... Supervisor ;) - check `docker/supervisor/php-fpm.conf` file.
+There are for sure other issues (like not visible docker logs right away) with that approach but for now it stays, mainly for sandbox-fun-oriented purposes ;).
+
+## Running tests
 
 Environment variable `APP_ENV` must be set to `test` to be able to run Kernel-/Web-TestCases based tests because
 `Real environment variables win over .env files` and this is the case in docker-based environments.
