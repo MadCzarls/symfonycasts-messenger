@@ -15,7 +15,7 @@ framework:
                 retry_strategy:
                     delay: 500
             failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
+            # sync: 'sync://' # special type off transport, mainly for dev environment and debugging; simulates async transport while not needing to run messenger:consume command
         routing:
             # Route your messages to the transports
             'App\Message\AddPonkaToImage': async_priority_high
