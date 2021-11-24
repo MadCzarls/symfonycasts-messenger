@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use App\Controller\ImagePostController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Messenger\Transport\InMemoryTransport;
 
 class ImagePostControllerTest extends WebTestCase
 {
-
     public function testCreate(): void
     {
         $client = $this->createClient();
@@ -23,6 +22,11 @@ class ImagePostControllerTest extends WebTestCase
         $client->request('POST', '/api/images', [], [
            'file' => $uploadedFile
         ]);
+
+        /** @var InMemoryTransport $transport */
+        $transport = static::getContainer()->get('messenger.transport.async_priority_high');
+
+        $this->assertCount(1, $transport->get());
 
         $this->assertResponseIsSuccessful();
     }
