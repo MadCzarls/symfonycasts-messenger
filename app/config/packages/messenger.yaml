@@ -1,5 +1,7 @@
 framework:
     messenger:
+        default_bus: messenger.bus.default
+
         # Defining which transport will handle failed messages
         failure_transport: failed
         transports:
@@ -26,3 +28,4 @@ framework:
                 default_middleware: true
                 middleware:
                     - App\Middleware\AuditMiddleware
+            event.bus: ~
