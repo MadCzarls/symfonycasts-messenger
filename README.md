@@ -32,7 +32,7 @@ Sandbox for getting to know and learn Symfony Messenger component, based on http
 - [x] Chapter 25
 - [x] Chapter 26
 - [x] Chapter 27
-- [ ] Chapter 28
+- [x] Chapter 28
 - [ ] Chapter 29
 - [ ] Chapter 30
 - [ ] Chapter 31
@@ -112,7 +112,7 @@ But since we are using dockerized environment we need to have a `Dockerfile` wit
 * we can have Supervisor installed in the same container as PHP but, because of the way it starts (`CMD` command) it blocks PHP-FPM process from starting (only one `CMD` may be used in `Dockerfile`)
 
 For now, we use the second approach and resolve the issue of not-starting PHP-FPM by starting it automatically on `docker-compose up` with using... Supervisor ;) - check `docker/supervisor/php-fpm.conf` file.
-There are for sure other issues (like not visible docker logs right away) with that approach but for now it stays, mainly for sandbox-fun-oriented purposes ;).
+There are for sure other issues (like not visible docker logs right away) with that approach but for now it stays, mainly for sandbox-learning-oriented purposes.
 
 ## Running tests
 
