@@ -39,7 +39,7 @@ Sandbox for getting to know and learn Symfony Messenger component, based on http
 - [x] Chapter 32
 - [x] Chapter 33
 - [x] Chapter 34
-- [ ] Chapter 35
+- [x] Chapter 35
 - [ ] Chapter 36
 - [ ] Chapter 37
 - [ ] Chapter 38
@@ -121,7 +121,7 @@ Environment variable `APP_ENV` must be set to `test` to be able to run Kernel-/W
 
 # Overview
 
-All PHP extensions can be installed via `docker-php-ext-install` command in docker/php/Dockerfile. Examples and usage:
+All PHP extensions can be installed via `docker-php-ext-install` command in `docker/php/Dockerfile`. Examples and usage:
 `https://gist.github.com/giansalex/2776a4206666d940d014792ab4700d80`.
 
 ## PhpStorm configuration
