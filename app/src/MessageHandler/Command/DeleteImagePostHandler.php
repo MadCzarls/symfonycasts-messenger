@@ -24,11 +24,11 @@ class DeleteImagePostHandler implements MessageSubscriberInterface, LoggerAwareI
     private ImagePostRepository $imagePostRepository;
 
     public function __construct(
-        MessageBusInterface $messageBus,
+        MessageBusInterface $eventBus,
         EntityManagerInterface $entityManager,
         ImagePostRepository $imagePostRepository,
     ) {
-        $this->eventBus = $messageBus;
+        $this->eventBus = $eventBus;
         $this->entityManager = $entityManager;
         $this->imagePostRepository = $imagePostRepository;
     }
