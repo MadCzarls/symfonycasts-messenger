@@ -34,7 +34,7 @@ Sandbox for getting to know and learn Symfony Messenger component, based on http
 - [x] Chapter 27
 - [x] Chapter 28
 - [x] Chapter 29
-- [ ] Chapter 30
+- [x] Chapter 30
 - [ ] Chapter 31
 - [ ] Chapter 32
 - [ ] Chapter 33
