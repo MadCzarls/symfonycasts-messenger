@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\MessageHandler\Command;
 
-use App\Message\DeleteImagePost;
+use App\Message\Command\DeleteImagePost;
 use App\Message\Event\ImagePostDeletedEvent;
 use App\Repository\ImagePostRepository;
 use Doctrine\ORM\EntityManagerInterface;
