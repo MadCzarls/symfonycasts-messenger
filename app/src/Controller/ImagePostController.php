@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\ImagePost;
 use App\Message\Command\AddPonkaToImage;
 use App\Message\Command\DeleteImagePost;
+use App\Message\Query\GetTotalImageCount;
 use App\Photo\PhotoFileManager;
 use App\Repository\ImagePostRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -27,6 +29,19 @@ use function count;
 
 class ImagePostController extends AbstractController
 {
+    #[Route('/api/images-count', methods: ['GET'])]
+    public function count(MessageBusInterface $queryBus): JsonResponse
+    {
+        $envelope = $queryBus->dispatch(new GetTotalImageCount());
+
+        /** @var HandledStamp $handled */
+        $handled = $envelope->last(HandledStamp::class);
+
+        $posts = $handled->getResult();
+
+        return $this->toJson(['items' => $posts]);
+    }
+
     #[Route('/api/images', methods: ['GET'])]
     public function list(ImagePostRepository $repository): JsonResponse
     {
