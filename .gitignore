@@ -7,6 +7,8 @@ bin/*
 
 ###
 
+docker/php/.env
+
 app/bin/.phpunit
 app/vendor
 app/var
