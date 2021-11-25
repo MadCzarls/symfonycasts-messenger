@@ -107,13 +107,14 @@ From this point forward, application should be available under `http://localhost
 To mimic production environment and to follow `Chapter 24` repository contains Supervisor - tool to control processes on your system.
 It is used to run - constantly - Symfony's Messenger's consumer. Configuration is stored in `docker/supervisor/*.conf`.
 
-But since we are using dockerized environment we need to have a `Dockerfile` with `CMD` command to start a Supervisor service. There are a few issues with that:
+But since we are using dockerized environment there are a few issues with that:
 * we can have (and probably should) have separate container for Supervisor - but since Messenger's `messenger:consume` command is integral part of Symfony we would need to include another copy of whole application in that container
-* we can have Supervisor installed in the same container as PHP but, because of the way it starts (`CMD` command) it blocks PHP-FPM process from starting (only one `CMD` may be used in `Dockerfile`)
+* we can have Supervisor installed in the same container as PHP but, because of the way it starts (`CMD` command) it blocks PHP-FPM process from starting (only one `CMD` may be used in `Dockerfile`) (and this way you are treating Docker more like virtual machine for everything - and you should not)
 
-For now, we use the second approach and resolve the issue of not-starting PHP-FPM by starting it automatically on `docker-compose up` with using... Supervisor ;) - check `docker/supervisor/php-fpm.conf` file.
-There are for sure other issues (like not visible docker logs right away) with that approach but for now it stays, mainly for sandbox-learning-oriented purposes.
-
+For sandbox-learning purposes I have decided to go with the second approach and resolve the issue of not-starting PHP-FPM by starting it
+automatically on `docker-compose up` by using... Supervisor ;) - check `docker/supervisor/php-fpm.conf` file -
+but in the end, since it's a sandbox, it's disabled - you can uncomment lines in `docker/php/Dockerfile`:
+`CMD ["/usr/bin/supervisord"]` and `COPY supervisor/* /etc/supervisor/conf.d/` if you want to try it out.
 ## Running tests
 
 Environment variable `APP_ENV` must be set to `test` to be able to run Kernel-/Web-TestCases based tests because
