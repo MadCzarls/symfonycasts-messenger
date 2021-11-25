@@ -61,6 +61,9 @@ class DeleteImagePostHandler implements MessageSubscriberInterface, LoggerAwareI
         yield DeleteImagePost::class => [
             'method' => '__invoke',
             'priority' => 10,
+            //'from_transport' is useful only if message has multiple handlers, and we want to handle this message only
+            // when got from specific transport
+//            'from_transport' => 'async',
         ];
     }
 }
