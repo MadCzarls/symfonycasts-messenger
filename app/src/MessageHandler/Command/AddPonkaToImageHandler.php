@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\MessageHandler\Command;
 
-use App\Message\AddPonkaToImage;
+use App\Message\Command\AddPonkaToImage;
 use App\Photo\PhotoFileManager;
 use App\Photo\PhotoPonkaficator;
 use App\Repository\ImagePostRepository;
@@ -53,7 +53,7 @@ class AddPonkaToImageHandler implements MessageHandlerInterface, LoggerAwareInte
 
             return;
         }
-//
+
 //        if (rand(0, 10)< 7 || true) {
 //            throw new \Exception('I failed randomly!!');
 //        }

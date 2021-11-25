@@ -1,6 +1,6 @@
 framework:
     messenger:
-        default_bus: messenger.bus.default
+        default_bus: command.bus
 
         # Defining which transport will handle failed messages
         failure_transport: failed
@@ -20,12 +20,15 @@ framework:
             # sync: 'sync://' # special type of transport, mainly for dev environment and debugging; simulates async transport while not needing to run messenger:consume command
         routing:
             # Route your messages to the transports
-            'App\Message\AddPonkaToImage': async_priority_high
+            'App\Message\Command\AddPonkaToImage': async_priority_high
             'App\Message\Event\ImagePostDeletedEvent': async
 
         buses:
-            messenger.bus.default:
+            command.bus:
                 default_middleware: true
                 middleware:
                     - App\Middleware\AuditMiddleware
-            event.bus: ~
+            event.bus:
+                default_middleware: allow_no_handlers
+                middleware:
+                    - App\Middleware\AuditMiddleware
