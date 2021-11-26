@@ -12,8 +12,12 @@ framework:
 #                    delay: 500
             async_priority_high:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-#                options:
-#                    queue_name: high
+                options:
+#                    queue_name: high # option queue_name does not exist for AMQP, only for Doctrine
+                    exchange:
+                        name: messages_priority_high
+                    queues:
+                        messages_prioritized: ~
 #                retry_strategy:
 #                    delay: 500
             failed: 'doctrine://default?queue_name=failed'
