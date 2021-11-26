@@ -42,7 +42,7 @@ Sandbox for getting to know and learn Symfony Messenger component, based on http
 - [x] Chapter 35
 - [x] Chapter 36
 - [x] Chapter 37
-- [ ] Chapter 38
+- [x] Chapter 38
 - [ ] Chapter 39
 - [ ] Chapter 40
 - [ ] Chapter 41
@@ -54,7 +54,7 @@ Sandbox for getting to know and learn Symfony Messenger component, based on http
 - [ ] Chapter 47
 - [ ] Chapter 48
 
-Running on Docker (utilizing docker-compose) with PHP 8.0 + nginx 1.18 + PostgreSQL. By default includes xdebug extension and PHP_CodeSniffer for easy development and basic configuration for opcache for production. Includes instruction for setting it in PhpStorm.
+Running on Docker (utilizing docker-compose) with PHP 8.0 + nginx 1.18 + PostgreSQL. By default, includes xdebug extension and PHP_CodeSniffer for easy development and basic configuration for opcache for production. Includes instruction for setting it in PhpStorm.
 
 - https://symfony.com/
 - https://www.docker.com/
