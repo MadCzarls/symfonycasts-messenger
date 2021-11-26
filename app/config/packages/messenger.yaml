@@ -15,17 +15,18 @@ framework:
                         default_publish_routing_key: priority_normal
                     queues:
                         messages_normal:
-                            binding_keys: [priority_normal]
+                            binding_keys: [ priority_normal ]
             async_priority_high:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
-#                    queue_name: high # option queue_name does not exist for AMQP, only for Doctrine
+                    # queue_name: high # option queue_name does not exist for AMQP, only for Doctrine
                     exchange:
-                        name: messages_priority_high
+                        name: messages
+                        type: direct
+                        default_publish_routing_key: priority_high
                     queues:
-                        messages_prioritized: ~
-#                retry_strategy:
-#                    delay: 500
+                        messages_high:
+                            binding_keys: [ priority_high ]
             failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://' # special type of transport, mainly for dev environment and debugging; simulates async transport while not needing to run messenger:consume command
         routing:
