@@ -7,6 +7,7 @@ namespace App\Serializer\Messenger;
 use App\Message\Command\LogEmoji;
 use Exception;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Exception\MessageDecodingFailedException;
 use Symfony\Component\Messenger\Stamp\BusNameStamp;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
@@ -27,6 +28,17 @@ class ExternalJsonMessageSerializer implements SerializerInterface
         $headers = $encodedEnvelope['headers'];
 
         $data = json_decode($body, true);
+
+        if ($data === null) {
+            //this exception should be used in serializer - because any other would NOT let you restart consumer
+            //it discards the message since there is not point in trying it again
+            throw new MessageDecodingFailedException('Invalid JSON');
+        }
+
+        if (!isset($data['emoji'])) {
+            throw new MessageDecodingFailedException('Missing the emoji key');
+        }
+
         $message = new LogEmoji($data['emoji']);
 
         // in case of redelivery, unserialize any stamps
