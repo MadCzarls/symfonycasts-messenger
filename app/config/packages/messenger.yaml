@@ -5,7 +5,17 @@ framework:
         # Defining which transport will handle failed messages
         failure_transport: failed
         transports:
-            # https://symfony.com/doc/current/messenger.html#transports
+            external_messages:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    auto_setup: false
+                    exchange:
+                        name: messages
+                        type: direct
+                        default_publish_routing_key: from_external_source
+                    queues:
+                        messages_from_external:
+                            binding_keys: [from_external_source]
             async:
                 serializer: messenger.transport.symfony_serializer
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
