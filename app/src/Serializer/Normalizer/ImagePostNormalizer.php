@@ -7,6 +7,7 @@ namespace App\Serializer\Normalizer;
 use App\Entity\ImagePost;
 use App\Photo\PhotoFileManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -28,11 +29,13 @@ class ImagePostNormalizer implements NormalizerInterface, CacheableSupportsMetho
     }
 
     /**
-     * @param ImagePost   $imagePost
-     * @param string|null $format
-     * @param mixed[]     $context
+     * @param ImagePost     $imagePost
+     * @param string|null   $format
+     * @param array|mixed[] $context
      *
      * @return mixed[]
+     *
+     * @throws ExceptionInterface
      */
     public function normalize($imagePost, $format = null, array $context = []): array
     {
@@ -49,11 +52,7 @@ class ImagePostNormalizer implements NormalizerInterface, CacheableSupportsMetho
         return $data;
     }
 
-    /**
-     * @param mixed       $data
-     * @param string|null $format
-     */
-    public function supportsNormalization($data, $format = null): bool
+    public function supportsNormalization(mixed $data, ?string $format = null): bool
     {
         return $data instanceof ImagePost;
     }

@@ -6,10 +6,12 @@ framework:
         failure_transport: failed
         transports:
             external_messages:
+                serializer: App\Serializer\Messenger\ExternalJsonMessageSerializer
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
-                    auto_setup: false
-                    exchange:
+#                    auto_setup: false # should be set to 'false' since we want to imitate that we only READ from, not WRITE to this transport
+                                       # but since in AMQP we need to have 'retry' functionality - needed for READING - we have to have it set to 'true'
+                    exchange: # should not be needed for READING from queue, but we have to set it up for retry functionality
                         name: messages
                         type: direct
                         default_publish_routing_key: from_external_source
@@ -17,7 +19,7 @@ framework:
                         messages_from_external:
                             binding_keys: [from_external_source]
             async:
-                serializer: messenger.transport.symfony_serializer
+#                serializer: messenger.transport.symfony_serializer
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
