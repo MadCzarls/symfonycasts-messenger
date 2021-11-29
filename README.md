@@ -4,7 +4,7 @@ https://symfonycasts.com/screencast/messenger
 
 Sandbox for getting to know and learn Symfony Messenger component, based on https://symfonycasts.com/screencast/messenger/.
 
-**Status: WORK-IN-PROGRESS**
+**Status: FINISHED**
 - [x] Chapter 1
 - [x] Chapter 2
 - [x] Chapter 3
@@ -47,12 +47,12 @@ Sandbox for getting to know and learn Symfony Messenger component, based on http
 - [x] Chapter 40
 - [x] Chapter 41
 - [x] Chapter 42
-- [ ] Chapter 43
-- [ ] Chapter 44
-- [ ] Chapter 45
-- [ ] Chapter 46
-- [ ] Chapter 47
-- [ ] Chapter 48
+- [x] Chapter 43
+- [x] Chapter 44
+- [x] Chapter 45
+- [x] Chapter 46
+- [x] Chapter 47
+- [x] Chapter 48
 
 Running on Docker (utilizing docker-compose) with PHP 8.0 + nginx 1.18 + PostgreSQL. By default, includes xdebug extension and PHP_CodeSniffer for easy development and basic configuration for opcache for production. Includes instruction for setting it in PhpStorm.
 
