@@ -7,6 +7,7 @@ framework:
         transports:
             # https://symfony.com/doc/current/messenger.html#transports
             async:
+                serializer: messenger.transport.symfony_serializer
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
