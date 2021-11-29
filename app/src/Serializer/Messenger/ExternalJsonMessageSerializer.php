@@ -7,6 +7,7 @@ namespace App\Serializer\Messenger;
 use App\Message\Command\LogEmoji;
 use Exception;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Stamp\BusNameStamp;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
 use function array_merge;
@@ -34,7 +35,12 @@ class ExternalJsonMessageSerializer implements SerializerInterface
             $stamps = unserialize($headers['stamps']);
         }
 
-        return new Envelope($message, $stamps);
+        $envelope = new Envelope($message, $stamps);
+
+        // needed only if you need this to be sent through the non-default - specific - bus
+        $envelope = $envelope->with(new BusNameStamp('command.bus'));
+
+        return $envelope;
     }
 
     /**

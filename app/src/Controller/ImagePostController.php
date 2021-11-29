@@ -86,7 +86,7 @@ class ImagePostController extends AbstractController
             new AmqpStamp('priority_normal'),
         ]);
 
-        $messageBus->dispatch($envelope);
+        dump($messageBus->dispatch($envelope));
 
         return $this->toJson($imagePost, 201);
     }
