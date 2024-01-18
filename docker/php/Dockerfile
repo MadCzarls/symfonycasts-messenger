@@ -1,7 +1,7 @@
 ARG ENV
 ARG TIMEZONE
 
-FROM php:8.0.13-fpm-buster
+FROM php:8.2.14-fpm-bookworm
 
 RUN apt-get update
 RUN apt-get install -y \
@@ -13,15 +13,13 @@ RUN apt-get install -y \
     libxml2-dev \
     libzip-dev \
     unzip \
-    postgresql-server-dev-11 \
+    postgresql-server-dev-15 \
     gnupg2 \
     supervisor \
     libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
     librabbitmq-dev
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x  | bash -
-RUN apt-get -y install nodejs
-RUN npm install
+RUN apt-get -y install npm nodejs
 
 COPY config/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
@@ -48,7 +46,7 @@ RUN docker-php-ext-install amqp
 ARG ENV
 
 RUN if [ "$ENV" = "dev" ] ; then \
-        pecl install xdebug-3.1.1 && \
+        pecl install xdebug-3.3.1 && \
         docker-php-ext-enable xdebug  \
     ; fi
 
@@ -59,12 +57,7 @@ COPY config/docker-php-memlimit.ini /usr/local/etc/php/conf.d/docker-php-memlimi
 
 #COPY supervisor/* /etc/supervisor/conf.d/
 
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-RUN php composer-setup.php
-RUN php -r "unlink('composer-setup.php');"
-RUN mv composer.phar /usr/local/bin/composer
-RUN chmod +x /usr/local/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 ARG TIMEZONE
 
