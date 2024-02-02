@@ -10,12 +10,13 @@ use App\Repository\ImagePostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 use function sprintf;
 
-class DeleteImagePostHandler implements MessageSubscriberInterface, LoggerAwareInterface
+#[AsMessageHandler]
+class DeleteImagePostHandler implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 

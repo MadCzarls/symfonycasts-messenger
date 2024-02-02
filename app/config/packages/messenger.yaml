@@ -11,35 +11,35 @@ framework:
                 options:
 #                    auto_setup: false # should be set to 'false' since we want to imitate that we only READ from, not WRITE to this transport
                                        # but since in AMQP we need to have 'retry' functionality - needed for READING - we have to have it set to 'true'
-                    exchange: # should not be needed for READING from queue, but we have to set it up for retry functionality
-                        name: messages
-                        type: direct
-                        default_publish_routing_key: from_external_source
-                    queues:
-                        messages_from_external:
-                            binding_keys: [from_external_source]
+#                    exchange: # should not be needed for READING from queue, but we have to set it up for retry functionality
+#                        name: messages
+#                        type: direct
+#                        default_publish_routing_key: from_external_source
+#                    queues:
+#                        messages_from_external:
+#                            binding_keys: [from_external_source]
             async:
-#                serializer: messenger.transport.symfony_serializer
+                serializer: messenger.transport.symfony_serializer
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                options:
-                    exchange:
-                        name: messages
-                        type: direct
-                        default_publish_routing_key: priority_normal
-                    queues:
-                        messages_normal:
-                            binding_keys: [ priority_normal ]
+#                options:
+#                    exchange:
+#                        name: messages
+#                        type: direct
+#                        default_publish_routing_key: priority_normal
+#                    queues:
+#                        messages_normal:
+#                            binding_keys: [ priority_normal ]
             async_priority_high:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     # queue_name: high # option queue_name does not exist for AMQP, only for Doctrine
-                    exchange:
-                        name: messages
-                        type: direct
-                        default_publish_routing_key: priority_high
-                    queues:
-                        messages_high:
-                            binding_keys: [ priority_high ]
+#                    exchange:
+#                        name: messages
+#                        type: direct
+#                        default_publish_routing_key: priority_high
+#                    queues:
+#                        messages_high:
+#                            binding_keys: [ priority_high ]
             failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://' # special type of transport, mainly for dev environment and debugging; simulates async transport while not needing to run messenger:consume command
         routing:

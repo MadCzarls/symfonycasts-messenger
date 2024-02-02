@@ -7,7 +7,7 @@ namespace App\Photo;
 use Doctrine\ORM\EntityManagerInterface;
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Finder\Finder;
 
 use function array_rand;
@@ -18,12 +18,12 @@ class PhotoPonkaficator
 {
     private EntityManagerInterface $entityManager;
     private ImageManager $imageManager;
-    private FilesystemInterface $photoFilesystem;
+    private FilesystemOperator $photoFilesystem;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         ImageManager $imageManager,
-        FilesystemInterface $photoFilesystem
+        FilesystemOperator $photoFilesystem
     ) {
         $this->entityManager = $entityManager;
         $this->imageManager = $imageManager;

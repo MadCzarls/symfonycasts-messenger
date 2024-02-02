@@ -7,7 +7,6 @@ namespace App\Controller;
 use App\Entity\ImagePost;
 use App\Message\Command\AddPonkaToImage;
 use App\Message\Command\DeleteImagePost;
-use App\Message\Command\LogEmoji;
 use App\Message\Query\GetTotalImageCount;
 use App\Photo\PhotoFileManager;
 use App\Repository\ImagePostRepository;

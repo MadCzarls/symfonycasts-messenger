@@ -6,9 +6,10 @@ namespace App\MessageHandler\Command;
 
 use App\Message\Command\LogEmoji;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class LogEmojiHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class LogEmojiHandler
 {
     /**
      * @var array|string[]

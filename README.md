@@ -122,7 +122,7 @@ Environment variable `APP_ENV` must be set to `test` to be able to run Kernel-/W
 All PHP extensions can be installed via `docker-php-ext-install` command in `docker/php/Dockerfile`. Examples and usage:
 `https://gist.github.com/giansalex/2776a4206666d940d014792ab4700d80`.
 
-## PhpStorm configuration
+## PhpStorm configurationS
 _Based on PhpStorm version: 2023.2.2_
 
 Open directory including cloned repository as directory in PhpStorm.
@@ -131,7 +131,7 @@ Open directory including cloned repository as directory in PhpStorm.
 
 1. `Settings` -> `PHP` -> `Servers`: create server with name `docker` (the same as in ENV variable `PHP_IDE_CONFIG`), host `localhost`, port `8050` (default from `compose.yaml`).
 1. Tick `Use path mappings` -> set `File/Directory` <-> `Absolute path on the server` as: `</absolute/path>/app` <-> `/var/www/app` (default from `compose.yaml`).
-1. `Settings` -> `PHP`: three dots next to the field `CLI interpreter` -> `+` button -> `From Docker, Vagrant(...)` -> from `docker-compose`, from service `php`, server `Docker`, configuration files `./docker-compose`. After creating in `Lifecycle` section ensure to pick `Always start a new container (...)`, in `General` refresh interpreter data.
+1. `Settings` -> `PHP`: three dots next to the field `CLI interpreter` -> `+` button -> `From Docker, Vagrant(...)` -> tick `Docker compose`, choose server `Docker`, set `Configuration files` to `./compose.yaml`. After that `Service` list should be reloaded - pick `php` from there. In `Lifecycle` section ensure to pick `Always start a new container (...)`, in `General` refresh interpreter data.
 
 ### xdebug
 
