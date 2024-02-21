@@ -3,6 +3,7 @@
 https://symfonycasts.com/screencast/messenger
 
 Sandbox for getting to know and learn Symfony Messenger component, based on https://symfonycasts.com/screencast/messenger/, but run on Docker, utilizing `docker compose`, with PHP 8.2 + Symfony 7.0 + nginx 1.19 + PostgreSQL 15.
+Sandboxes in previous Symfony versions are available at `legacy/symfony<VERSION>` branches - check them out if you need.
 
 **Status: WIP**
 - [] Chapter 1
