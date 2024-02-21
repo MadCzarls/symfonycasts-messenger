@@ -35,6 +35,19 @@
             "src/Repository/.gitignore"
         ]
     },
+    "doctrine/doctrine-migrations-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.1",
+            "ref": "1d01ec03c6ecbd67c3375c5478c9a423ae5d6a33"
+        },
+        "files": [
+            "config/packages/doctrine_migrations.yaml",
+            "migrations/.gitignore"
+        ]
+    },
     "doctrine/event-manager": {
         "version": "1.1.1"
     },
@@ -67,6 +80,19 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.1.1"
+    },
+    "league/flysystem-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "913dc3d7a5a1af0d2b044c5ac3a16e2f851d7380"
+        },
+        "files": [
+            "config/packages/flysystem.yaml",
+            "var/storage/.gitignore"
+        ]
     },
     "nikic/php-parser": {
         "version": "v4.10.4"

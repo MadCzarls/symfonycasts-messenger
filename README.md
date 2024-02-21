@@ -2,7 +2,7 @@
 
 https://symfonycasts.com/screencast/messenger
 
-Sandbox for getting to know and learn Symfony Messenger component, based on https://symfonycasts.com/screencast/messenger/, but run on Docker, utilizing `docker compose`, with PHP 8.2 + Symfony 7.0 + nginx 1.19 + PostgreSQL 15.
+Sandbox for getting to know and learn Symfony Messenger component, based on https://symfonycasts.com/screencast/messenger/, but run on Docker, utilizing `docker compose`, with PHP 8.2 + Symfony 7.0 + nginx 1.19 + PostgreSQL 15 + Vue 3
 Sandboxes in previous Symfony versions are available at `legacy/symfony<VERSION>` branches - check them out if you need.
 
 **Status: WIP**
@@ -123,7 +123,7 @@ Environment variable `APP_ENV` must be set to `test` to be able to run Kernel-/W
 All PHP extensions can be installed via `docker-php-ext-install` command in `docker/php/Dockerfile`. Examples and usage:
 `https://gist.github.com/giansalex/2776a4206666d940d014792ab4700d80`.
 
-## PhpStorm configurationS
+## PhpStorm configurations
 _Based on PhpStorm version: 2023.2.2_
 
 Open directory including cloned repository as directory in PhpStorm.
@@ -147,7 +147,7 @@ Open directory including cloned repository as directory in PhpStorm.
 
 ### PostgreSQL
 
-Open `Database` section on the right bar of IDE -> `Data Source` -> `PostgreSQL` -> set host to `localhost`, set user to `app_user`, pass `app_pass`, database to `app` (defaults from `compose.yaml`) Set url to `jdbc:postgresql://localhost:5432/app`.
+Open `Database` section on the right bar of IDE -> `Data Source` -> `PostgreSQL` -> set host to `localhost`, set user to `app_user`, pass `app_pass`, database to `messenger_app` (defaults from `compose.yaml`) Set url to `jdbc:postgresql://localhost:5432/app`.
 
 ### PHPUnit
 

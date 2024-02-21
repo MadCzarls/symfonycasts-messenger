@@ -52,7 +52,7 @@ class ImagePostNormalizer implements NormalizerInterface, CacheableSupportsMetho
         return $data;
     }
 
-    public function supportsNormalization(mixed $data, ?string $format = null): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof ImagePost;
     }
@@ -60,5 +60,10 @@ class ImagePostNormalizer implements NormalizerInterface, CacheableSupportsMetho
     public function hasCacheableSupportsMethod(): bool
     {
         return true;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [];
     }
 }
