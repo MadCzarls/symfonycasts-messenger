@@ -48,8 +48,6 @@ export default {
         return;
       }
 
-      // console.log(image);
-
       this.images.unshift(image);
     },
     onDeleteImage(image) {

@@ -49,7 +49,8 @@ export default {
     const saveFiles = (files) => {
       const formData = new FormData();
       formData.append("file", files[0])
-      for (var x = 0; x < files.length; x++) {
+
+      for (let x = 0; x < files.length; x++) {
         const formData = new FormData();
         formData.append("file", files[x]);
 
@@ -70,7 +71,7 @@ export default {
 
     function onDrop(acceptFiles, rejectReasons) {
       saveFiles(acceptFiles); // saveFiles as callback
-      console.log(rejectReasons);
+      console.log(rejectReasons); //@TODO handle
     }
 
     const { getRootProps, getInputProps, ...rest } = useDropzone({ onDrop });

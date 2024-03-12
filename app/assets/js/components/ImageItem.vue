@@ -10,15 +10,15 @@
         </a>
       </div>
       <div class="pl-2">
-                <span v-if="this.ponkaAddedAt">
-                    Ponka visited your photo {{ ponkaAddedAgo }}
-                </span>
+        <span v-if="this.ponkaAddedAt">
+            Ponka visited your photo {{ ponkaAddedAgo }}
+        </span>
         <span v-else>
-                    Ponka is napping. Check back soon.
-                </span>
+          Ponka is napping. Check back soon.
+        </span>
       </div>
       <div class="pl-2">
-        <button title="clear image" v-on:click="onDeleteClick" class="btn btn-warning font-weight-bold">X</button>
+        <button v-on:click="onDeleteClick" class="btn btn-warning font-weight-bold">X</button>
       </div>
     </div>
   </li>
@@ -57,7 +57,7 @@ export default {
     clearInterval(this.timer);
   },
   mounted() {
-    // $(this.$el).find('button').tooltip(); @TODO fix
+    $(this.$el).find('button').tooltip = 'clear image';
   }
 }
 </script>
