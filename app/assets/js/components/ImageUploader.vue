@@ -1,14 +1,3 @@
-<!--<template>-->
-<!--  <div>-->
-<!--    <vue-dropzone-->
-<!--        id="dropzone"-->
-<!--        ref="vueDropzone"-->
-<!--        v-on:vdropzone-success="onDropzoneSuccess"-->
-<!--        :options="dropzoneOptions"-->
-<!--    ></vue-dropzone>-->
-<!--  </div>-->
-<!--</template>-->
-
 <!--<script>-->
 <!--import vue2Dropzone from 'vue2-dropzone'-->
 <!--import 'vue2-dropzone/dist/vue2Dropzone.min.css'-->
@@ -34,12 +23,18 @@
 <!--</script>-->
 <template>
   <div>
-    <div v-bind="getRootProps()">
-      <input v-bind="getInputProps()" />
-      <p v-if="isDragActive">Drop the files here ...</p>
-      <p v-else>Drag 'n' drop some files here, or click to select files</p>
+    <div class="dropzone" v-bind="getRootProps()">
+      <div
+          class="border"
+          :class="{
+          isDragActive,
+        }"
+      >
+        <input v-bind="getInputProps()" />
+        <p v-if="isDragActive">Drop the files here ...</p>
+        <p v-else>Drag and drop files - or click - here to upload</p>
+      </div>
     </div>
-    <button @click="open">open</button>
   </div>
 </template>
 
@@ -49,8 +44,7 @@ import { useDropzone } from "vue3-dropzone";
 import axios from "axios"
 
 export default {
-  name: "UseDropzoneDemo",
-  setup() {
+  setup(props, ctx) {
     const url = "/api/images";
     const saveFiles = (files) => {
       const formData = new FormData();
@@ -66,26 +60,12 @@ export default {
               },
             })
             .then((response) => {
-              console.info(response.data);
+              ctx.emit('new-image', response.data);
             })
             .catch((err) => {
-              console.error(err);
+              console.error(err); //@TODO handle
             });
       }
-
-      // axios
-      //     .post(url, formData, {
-      //       headers: {
-      //         "Content-Type": "multipart/form-data",
-      //       },
-      //     })
-      //     .then((response) => {
-      //       console.info(response.data);
-      //     })
-      //     .catch((err) => {
-      //       console.error(err);
-      //     });
-
     };
 
     function onDrop(acceptFiles, rejectReasons) {
@@ -103,3 +83,23 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.dropzone,
+.border {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: all 0.3s ease;
+  background: #fff;
+
+  &.isDragActive {
+    border: 2px dashed #ffb300;
+    background: rgb(255 167 18 / 20%);
+  }
+}
+
+</style>

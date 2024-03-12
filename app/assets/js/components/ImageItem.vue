@@ -57,7 +57,7 @@ export default {
     clearInterval(this.timer);
   },
   mounted() {
-    $(this.$el).find('button').tooltip();
+    // $(this.$el).find('button').tooltip(); @TODO fix
   }
 }
 </script>
