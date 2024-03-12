@@ -6,26 +6,19 @@ namespace App\Serializer\Normalizer;
 
 use App\Entity\ImagePost;
 use App\Photo\PhotoFileManager;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
-class ImagePostNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+readonly class ImagePostNormalizer implements NormalizerInterface
 {
-    private ObjectNormalizer $normalizer;
-    private PhotoFileManager $uploaderManager;
-    private UrlGeneratorInterface $router;
-
     public function __construct(
-        ObjectNormalizer $normalizer,
-        PhotoFileManager $uploaderManager,
-        UrlGeneratorInterface $router
+        #[Autowire(service: 'serializer.normalizer.object')]
+        private NormalizerInterface $normalizer,
+        private PhotoFileManager $uploaderManager,
+        private UrlGeneratorInterface $router
     ) {
-        $this->normalizer = $normalizer;
-        $this->uploaderManager = $uploaderManager;
-        $this->router = $router;
     }
 
     /**
@@ -57,13 +50,10 @@ class ImagePostNormalizer implements NormalizerInterface, CacheableSupportsMetho
         return $data instanceof ImagePost;
     }
 
-    public function hasCacheableSupportsMethod(): bool
-    {
-        return true;
-    }
-
     public function getSupportedTypes(?string $format): array
     {
-        return [];
+        return [
+            ImagePost::class => true,
+        ];
     }
 }

@@ -7,7 +7,7 @@ namespace App\Entity;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: "App\Repository\ImagePostRepository")]
 class ImagePost
