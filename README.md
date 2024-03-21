@@ -6,9 +6,9 @@ Sandbox for getting to know and learn Symfony Messenger component, based on http
 Sandboxes in previous Symfony versions are available at `legacy/symfony<VERSION>` branches - check them out if you need.
 
 **Status: WIP**
-- [ ] Chapter 1
-- [ ] Chapter 2
-- [ ] Chapter 3
+- [x] Chapter 1
+- [x] Chapter 2
+- [x] Chapter 3
 - [ ] Chapter 4
 - [ ] Chapter 5
 - [ ] Chapter 6

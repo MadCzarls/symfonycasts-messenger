@@ -20,26 +20,17 @@ class AddPonkaToImageHandler implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    private PhotoPonkaficator $ponkaficator;
-    private PhotoFileManager $photoManager;
-    private ImagePostRepository $imagePostRepository;
-    private EntityManagerInterface $entityManager;
-
     public function __construct(
-        PhotoPonkaficator $ponkaficator,
-        PhotoFileManager $photoManager,
-        ImagePostRepository $imagePostRepository,
-        EntityManagerInterface $entityManager
+        private PhotoPonkaficator $ponkaficator,
+        private PhotoFileManager $photoManager,
+        private ImagePostRepository $imagePostRepository,
+        private EntityManagerInterface $entityManager
     ) {
-        $this->ponkaficator = $ponkaficator;
-        $this->photoManager = $photoManager;
-        $this->imagePostRepository = $imagePostRepository;
-        $this->entityManager = $entityManager;
     }
 
     public function __invoke(AddPonkaToImage $addPonkaToImage): void
     {
-        $imagePostId = $addPonkaToImage->getImagePostId();
+        $imagePostId = $addPonkaToImage->imagePostId;
         $imagePost = $this->imagePostRepository->find($imagePostId);
 
         if (!$imagePost) {
