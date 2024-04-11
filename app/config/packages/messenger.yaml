@@ -19,7 +19,6 @@ framework:
 #                        messages_from_external:
 #                            binding_keys: [from_external_source]
             async:
-                serializer: messenger.transport.symfony_serializer
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
 #                options:
 #                    exchange:
