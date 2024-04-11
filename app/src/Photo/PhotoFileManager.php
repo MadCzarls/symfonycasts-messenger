@@ -78,6 +78,6 @@ class PhotoFileManager
 
     public function update(string $filename, string $updatedContents): void
     {
-        $this->filesystem->update($filename, $updatedContents);
+        $this->filesystem->write($filename, $updatedContents);
     }
 }

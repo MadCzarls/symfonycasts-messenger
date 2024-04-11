@@ -20,28 +20,20 @@ class DeleteImagePostHandler implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    private MessageBusInterface $eventBus;
-    private EntityManagerInterface $entityManager;
-    private ImagePostRepository $imagePostRepository;
-
     public function __construct(
-        MessageBusInterface $eventBus,
-        EntityManagerInterface $entityManager,
-        ImagePostRepository $imagePostRepository,
-    ) {
-        $this->eventBus = $eventBus;
-        $this->entityManager = $entityManager;
-        $this->imagePostRepository = $imagePostRepository;
-    }
+        readonly private MessageBusInterface $eventBus,
+        readonly private EntityManagerInterface $entityManager,
+        readonly private ImagePostRepository $imagePostRepository,
+    ) {}
 
     public function __invoke(DeleteImagePost $deleteImagePost): void
     {
-        $imagePost = $this->imagePostRepository->find($deleteImagePost->getImagePostId());
+        $imagePost = $this->imagePostRepository->find($deleteImagePost->imagePostId);
 
         if (!$imagePost) {
             if ($this->logger) {
                 $this->logger->error(
-                    sprintf("ImagePost with ID '%d' does not exist", $deleteImagePost->getImagePostId())
+                    sprintf("ImagePost with ID '%d' does not exist", $deleteImagePost->imagePostId)
                 );
             }
 

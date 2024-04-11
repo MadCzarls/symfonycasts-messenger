@@ -8,6 +8,5 @@ readonly class AddPonkaToImage
 {
     public function __construct(
         public int $imagePostId,
-    ) {
-    }
+    ) {}
 }
