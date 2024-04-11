@@ -30,8 +30,7 @@ class AddPonkaToImageHandler implements LoggerAwareInterface
 
     public function __invoke(AddPonkaToImage $addPonkaToImage): void
     {
-        $imagePostId = $addPonkaToImage->imagePostId;
-        $imagePost = $this->imagePostRepository->find($imagePostId);
+        $imagePost = $this->imagePostRepository->find($addPonkaToImage->imagePostId);
 
         if (!$imagePost) {
             //could throw an exception but the message would be retried which we don't want here
@@ -40,7 +39,7 @@ class AddPonkaToImageHandler implements LoggerAwareInterface
             if ($this->logger) {
                 // check for unit testing - since for test we will need to call 'setLogger'
                 // on this object explicitly
-                $this->logger->alert(sprintf('Image post with id %d was missing', $imagePostId));
+                $this->logger->alert(sprintf('Image post with id %d was missing', $addPonkaToImage->imagePostId));
             }
 
             return;

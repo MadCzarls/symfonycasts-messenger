@@ -81,7 +81,7 @@ class ImagePostController extends AbstractController
 
         $message = new AddPonkaToImage($imagePost->getId());
         $envelope = new Envelope($message, [
-            new DelayStamp(1000),
+            new DelayStamp(10),
             new AmqpStamp('priority_normal'),
         ]);
 
