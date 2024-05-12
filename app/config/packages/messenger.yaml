@@ -51,9 +51,9 @@ framework:
             command.bus:
                 default_middleware: true
                 middleware:
-                    - App\Middleware\AuditMiddleware
+                    - App\Messenger\AuditMiddleware
             event.bus:
                 default_middleware: allow_no_handlers
                 middleware:
-                    - App\Middleware\AuditMiddleware
+                    - App\Messenger\AuditMiddleware
             query.bus: ~
