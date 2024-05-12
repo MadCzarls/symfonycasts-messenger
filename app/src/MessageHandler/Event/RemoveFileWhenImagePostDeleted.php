@@ -20,6 +20,6 @@ class RemoveFileWhenImagePostDeleted
 
     public function __invoke(ImagePostDeletedEvent $event): void
     {
-        $this->photoFileManager->deleteImage($event->getFilename());
+        $this->photoFileManager->deleteImage($event->filename);
     }
 }

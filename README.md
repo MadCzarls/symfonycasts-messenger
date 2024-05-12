@@ -14,7 +14,7 @@ Sandboxes in previous Symfony versions are available at `legacy/symfony<VERSION>
 - [x] Chapter 6
 - [x] Chapter 7
 - [x] Chapter 8
-- [ ] Chapter 9
+- [x] Chapter 9
 - [ ] Chapter 10
 - [ ] Chapter 11
 - [ ] Chapter 12
