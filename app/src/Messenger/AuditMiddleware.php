@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Messenger;
 
-use App\Stamp\UniqueIdStamp;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
@@ -22,17 +21,18 @@ final class AuditMiddleware implements MiddlewareInterface
 
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {
-        return $stack->next()->handle($envelope, $stack);
-
-        if ($envelope->last(UniqueIdStamp::class) === null) {
+        if (null === $envelope->last(UniqueIdStamp::class)) {
             $envelope = $envelope->with(new UniqueIdStamp());
         }
 
         /** @var UniqueIdStamp $stamp */
         $stamp = $envelope->last(UniqueIdStamp::class);
 
+        dump($stamp->uniqueId);
+        return $stack->next()->handle($envelope, $stack);
+
         $context = [
-            'id' => $stamp->getUniqueId(),
+            'id' => $stamp->uniqueId,
             'class' => get_class($envelope->getMessage()),
         ];
 
