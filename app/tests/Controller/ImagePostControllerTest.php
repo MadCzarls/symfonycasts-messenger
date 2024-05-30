@@ -23,11 +23,11 @@ class ImagePostControllerTest extends WebTestCase
            'file' => $uploadedFile
         ]);
 
-//        /** @var InMemoryTransport $transport */
-//        $transport = static::getContainer()->get('messenger.transport.async_priority_high');
-//
-//        $this->assertCount(1, $transport->get());
-//
+        /** @var InMemoryTransport $transport */
+        $transport = static::getContainer()->get('messenger.transport.async_priority_high');
+
+        $this->assertCount(1, $transport->get());
+
         $this->assertResponseIsSuccessful();
     }
 }
