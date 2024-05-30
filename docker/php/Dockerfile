@@ -40,7 +40,6 @@ RUN docker-php-ext-install \
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install -j$(nproc) gd
-
 RUN docker-php-ext-install amqp
 
 ARG ENV
@@ -55,6 +54,7 @@ RUN docker-php-source delete
 COPY config/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY config/docker-php-memlimit.ini /usr/local/etc/php/conf.d/docker-php-memlimit.ini
 
+# Intentionally commented - check 'A note concerning Supervisor and Chapter 24' in README.md
 #COPY supervisor/* /etc/supervisor/conf.d/
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
@@ -67,4 +67,5 @@ WORKDIR /var/www/app
 
 RUN usermod -u 1000 www-data
 
-# CMD ["/usr/bin/supervisord"]
+# Intentionally commented - check 'A note concerning Supervisor and Chapter 24' in README.md
+#CMD [ "/usr/bin/supervisord" ]

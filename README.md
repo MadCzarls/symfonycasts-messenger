@@ -29,7 +29,7 @@ Sandboxes in previous Symfony versions are available at `legacy/symfony<VERSION>
 - [x] Chapter 21
 - [x] Chapter 22
 - [x] Chapter 23
-- [ ] Chapter 24
+- [x] Chapter 24
 - [ ] Chapter 25
 - [ ] Chapter 26
 - [ ] Chapter 27
@@ -102,16 +102,19 @@ From this point forward, application should be available under `http://localhost
 ### A note concerning Supervisor and Chapter 24
 
 To mimic production environment and to follow `Chapter 24` repository contains Supervisor - tool to control processes on your system.
-It is used to run - constantly - Symfony's Messenger's consumer. Configuration is stored in `docker/supervisor/*.conf`.
+It is used to run - constantly - Symfony's Messenger's consumer. Configuration is stored in `docker/php/supervisor/messenger-worker.conf`.
 
 But since we are using dockerized environment there are a few issues with that:
 * we can have (and probably should) have separate container for Supervisor - but since Messenger's `messenger:consume` command is integral part of Symfony we would need to include another copy of whole application in that container
 * we can have Supervisor installed in the same container as PHP but, because of the way it starts (`CMD` command) it blocks PHP-FPM process from starting (only one `CMD` may be used in `Dockerfile`) (and this way you are treating Docker more like virtual machine for everything - and you should not)
 
 For sandbox-learning purposes I have decided to go with the second approach and resolve the issue of not-starting PHP-FPM by starting it
-automatically on `docker compose up` by using... Supervisor ;) - check `docker/supervisor/php-fpm.conf` file -
-but in the end, since it's a sandbox, it's disabled - you can uncomment lines in `docker/php/Dockerfile`:
-`CMD ["/usr/bin/supervisord"]` and `COPY supervisor/* /etc/supervisor/conf.d/` if you want to try it out.
+automatically on `docker compose up` by using... Supervisor ;) - check `docker/php/supervisor/php-fpm.conf` file.
+
+But, since it's a sandbox and I don't want to mess with application flow, it's disabled by default - but you can always uncomment two lines in `docker/php/Dockerfile`:
+- `COPY supervisor/* /etc/supervisor/conf.d/`
+- `CMD ["/usr/bin/supervisord"]`
+if you want to try it out.
 
 ## Running tests
 
