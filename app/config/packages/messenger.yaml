@@ -33,7 +33,7 @@ framework:
             async_priority_high:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
-                    # queue_name: high # option queue_name does not exist for AMQP, only for Doctrine
+                     queue_name: high # option queue_name does not exist for AMQP, only for Doctrine
 #                    exchange:
 #                        name: messages
 #                        type: direct
