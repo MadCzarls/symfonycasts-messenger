@@ -28,9 +28,6 @@ final class AuditMiddleware implements MiddlewareInterface
         /** @var UniqueIdStamp $stamp */
         $stamp = $envelope->last(UniqueIdStamp::class);
 
-        dump($stamp->uniqueId);
-        return $stack->next()->handle($envelope, $stack);
-
         $context = [
             'id' => $stamp->uniqueId,
             'class' => get_class($envelope->getMessage()),
