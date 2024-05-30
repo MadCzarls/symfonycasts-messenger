@@ -1,5 +1,5 @@
-#framework:
-#    messenger:
-#        transports:
-#            async: "sync://"
-#            async_priority_high: "sync://"
+framework:
+  messenger:
+#    transports: # Commenting this at the end of Chapter 21 to imitate prod environment
+#      async: 'sync://'
+#      async_priority_high: 'sync://'

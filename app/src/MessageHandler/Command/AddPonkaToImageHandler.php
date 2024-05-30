@@ -45,9 +45,10 @@ class AddPonkaToImageHandler implements LoggerAwareInterface
             return;
         }
 
-        if (rand(0, 10)< 7) {
-            throw new \Exception('I failed randomly!!!!');
-        }
+//        Commenting this at the end of Chapter 21 to be able to follow Symfonycast smoothly ;)
+//        if (rand(0, 10)< 7) {
+//            throw new \Exception('I failed randomly!!!!');
+//        }
 
         $updatedContents = $this->ponkaficator->ponkafy(
             $this->photoManager->read($imagePost->getFilename())
