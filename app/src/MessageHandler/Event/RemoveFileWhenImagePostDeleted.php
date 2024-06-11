@@ -9,14 +9,11 @@ use App\Photo\PhotoFileManager;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class RemoveFileWhenImagePostDeleted
+readonly class RemoveFileWhenImagePostDeleted
 {
-    private PhotoFileManager $photoFileManager;
-
-    public function __construct(PhotoFileManager $photoFileManager)
-    {
-        $this->photoFileManager = $photoFileManager;
-    }
+    public function __construct(
+        private PhotoFileManager $photoFileManager,
+    ) {}
 
     public function __invoke(ImagePostDeletedEvent $event): void
     {
