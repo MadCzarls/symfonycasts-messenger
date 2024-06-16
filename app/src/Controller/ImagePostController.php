@@ -57,7 +57,7 @@ class ImagePostController extends AbstractController
         ValidatorInterface $validator,
         PhotoFileManager $photoManager,
         EntityManagerInterface $entityManager,
-        MessageBusInterface $messageBus
+        MessageBusInterface $commandBus
     ): JsonResponse {
         /** @var UploadedFile $imageFile */
         $imageFile = $request->files->get('file');
@@ -85,7 +85,7 @@ class ImagePostController extends AbstractController
             new AmqpStamp('priority_normal'),
         ]);
 
-        dump($messageBus->dispatch($envelope));
+        dump($commandBus->dispatch($envelope));
 
         return $this->toJson($imagePost, 201);
     }
@@ -93,10 +93,10 @@ class ImagePostController extends AbstractController
     #[Route('/api/images/{id}', methods: ['DELETE'])]
     public function delete(
         ImagePost $imagePost,
-        MessageBusInterface $messageBus
+        MessageBusInterface $commandBus
     ): Response {
         $message = new DeleteImagePost($imagePost->getId());
-        $messageBus->dispatch($message);
+        $commandBus->dispatch($message);
 
         return new Response(null, 204);
     }
