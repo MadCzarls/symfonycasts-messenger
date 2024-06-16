@@ -15,7 +15,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 use function sprintf;
 
-#[AsMessageHandler]
+#[AsMessageHandler(handles: DeleteImagePost::class, method: '__invoke', priority: 10)]
 class DeleteImagePostHandler implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
@@ -44,19 +44,5 @@ class DeleteImagePostHandler implements LoggerAwareInterface
         $this->entityManager->flush();
 
         $this->eventBus->dispatch(new ImagePostDeletedEvent($imagePost->getFilename()));
-    }
-
-    /**
-     * @return object[]
-     */
-    public static function getHandledMessages(): iterable
-    {
-        yield DeleteImagePost::class => [
-            'method' => '__invoke',
-            'priority' => 10,
-            //'from_transport' is useful only if message has multiple handlers, and we want to handle this message only
-            // when got from specific transport
-//            'from_transport' => 'async',
-        ];
     }
 }
