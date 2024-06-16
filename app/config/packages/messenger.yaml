@@ -47,6 +47,7 @@ framework:
             # Route your messages to the transports
             'App\Message\Command\AddPonkaToImage': async_priority_high
             'App\Message\Event\ImagePostDeletedEvent': async
+#            'App\Message\Command\DeleteImagePost': [ async, async_priority_high ] # commented out after finishing Chapter 34 od Symfonycast
         buses:
             command.bus:
                 default_middleware: true

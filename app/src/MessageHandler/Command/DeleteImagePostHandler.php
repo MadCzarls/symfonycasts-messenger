@@ -15,7 +15,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 use function sprintf;
 
-#[AsMessageHandler(handles: DeleteImagePost::class, method: '__invoke', priority: 10)]
+#[AsMessageHandler(handles: DeleteImagePost::class, method: '__invoke', priority: 10)] //fromTransport: 'async' - removed after finishing Chapter 34 od Symfonycast
 class DeleteImagePostHandler implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
