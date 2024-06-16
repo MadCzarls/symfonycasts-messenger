@@ -1,9 +1,7 @@
 framework:
     messenger:
         default_bus: command.bus
-
-        # Defining which transport will handle failed messages
-        failure_transport: failed
+        failure_transport: failed # Defining which transport will handle failed messages
         transports:
             external_messages:
                 serializer: App\Serializer\Messenger\ExternalJsonMessageSerializer
