@@ -32,12 +32,12 @@ framework:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
 #                     queue_name: high # option queue_name does not exist for AMQP transport, only for Doctrine - commented out after finishing Chapter 36 of Symfonycast
-#                    exchange:
-#                        name: messages
+                    exchange:
+                        name: messages_high_priority
 #                        type: direct
 #                        default_publish_routing_key: priority_high
-#                    queues:
-#                        messages_high:
+                    queues:
+                        messages_high: ~
 #                            binding_keys: [ priority_high ]
             failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://' # special type of transport, mainly for dev environment and debugging; simulates routing (so, in essence, asynchronous transport) while not needing to run messenger:consume command
