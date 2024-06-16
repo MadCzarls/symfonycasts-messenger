@@ -31,7 +31,7 @@ framework:
             async_priority_high:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
-                     queue_name: high # option queue_name does not exist for AMQP, only for Doctrine
+#                     queue_name: high # option queue_name does not exist for AMQP transport, only for Doctrine - commented out after finishing Chapter 36 of Symfonycast
 #                    exchange:
 #                        name: messages
 #                        type: direct
@@ -45,7 +45,7 @@ framework:
             # Route your messages to the transports
             'App\Message\Command\AddPonkaToImage': async_priority_high
             'App\Message\Event\ImagePostDeletedEvent': async
-#            'App\Message\Command\DeleteImagePost': [ async, async_priority_high ] # commented out after finishing Chapter 34 od Symfonycast
+#            'App\Message\Command\DeleteImagePost': [ async, async_priority_high ] # commented out after finishing Chapter 34 of Symfonycast
         buses:
             command.bus:
                 default_middleware: true
