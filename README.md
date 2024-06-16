@@ -111,7 +111,7 @@ But since we are using dockerized environment there are a few issues with that:
 For sandbox-learning purposes I have decided to go with the second approach and resolve the issue of not-starting PHP-FPM by starting it
 automatically on `docker compose up` by using... Supervisor ;) - check `docker/php/supervisor/php-fpm.conf` file.
 
-But, since it's a sandbox and I don't want to mess with application flow, it's disabled by default - but you can always uncomment two lines in `docker/php/Dockerfile`:
+And, since it's a sandbox and I don't want to mess with application flow, it's disabled by default - but you can always uncomment following two lines in `docker/php/Dockerfile`:
 - `COPY supervisor/* /etc/supervisor/conf.d/`
 - `CMD ["/usr/bin/supervisord"]`
 if you want to try it out.
@@ -127,7 +127,7 @@ All PHP extensions can be installed via `docker-php-ext-install` command in `doc
 `https://gist.github.com/giansalex/2776a4206666d940d014792ab4700d80`.
 
 ## PhpStorm configurations
-_Based on PhpStorm version: 2023.2.2_
+_Based on PhpStorm version: 2024.1.3_
 
 Open directory including cloned repository as directory in PhpStorm.
 
