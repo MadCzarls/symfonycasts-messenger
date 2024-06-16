@@ -82,7 +82,8 @@ class ImagePostController extends AbstractController
         $message = new AddPonkaToImage($imagePost->getId());
         $envelope = new Envelope($message, [
 //            new DelayStamp(500), // commented out after finishing Chapter 35 of Symfonycast
-            new AmqpStamp('priority_normal'),
+            new DelayStamp(60000), // commented out after finishing Chapter 38 of Symfonycast
+//            new AmqpStamp('priority_normal'),
         ]);
 
         dump($commandBus->dispatch($envelope));
