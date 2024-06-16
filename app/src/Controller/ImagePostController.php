@@ -83,6 +83,7 @@ class ImagePostController extends AbstractController
         $envelope = new Envelope($message, [
 //            new DelayStamp(500), // commented out after finishing Chapter 35 of Symfonycast
             new DelayStamp(60000), // commented out after finishing Chapter 38 of Symfonycast
+            new DelayStamp(1000),
 //            new AmqpStamp('priority_normal'),
         ]);
 

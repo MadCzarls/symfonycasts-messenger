@@ -20,14 +20,14 @@ framework:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 retry_strategy:
                     delay: 500
-#                options:
-#                    exchange:
-#                        name: messages
-#                        type: direct
-#                        default_publish_routing_key: priority_normal
-#                    queues:
-#                        messages_normal:
-#                            binding_keys: [ priority_normal ]
+                options:
+                    exchange:
+                        name: messages
+                        type: direct
+                        default_publish_routing_key: normal
+                    queues:
+                        messages_normal:
+                            binding_keys: [ normal ]
             async_priority_high:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
