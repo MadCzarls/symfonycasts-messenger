@@ -42,7 +42,7 @@ framework:
 #                        messages_high:
 #                            binding_keys: [ priority_high ]
             failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://' # special type of transport, mainly for dev environment and debugging; simulates async transport while not needing to run messenger:consume command
+            # sync: 'sync://' # special type of transport, mainly for dev environment and debugging; simulates routing (so, in essence, asynchronous transport) while not needing to run messenger:consume command
         routing:
             # Route your messages to the transports
             'App\Message\Command\AddPonkaToImage': async_priority_high
