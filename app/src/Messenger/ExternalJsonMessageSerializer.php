@@ -15,6 +15,7 @@ use function array_merge;
 use function json_decode;
 use function json_encode;
 use function serialize;
+use function sprintf;
 use function unserialize;
 
 class ExternalJsonMessageSerializer implements SerializerInterface
@@ -33,11 +34,17 @@ class ExternalJsonMessageSerializer implements SerializerInterface
             throw new MessageDecodingFailedException('Invalid JSON');
         }
 
-        if (!isset($data['emoji'])) {
-            throw new MessageDecodingFailedException('Missing the emoji key!');
+        if (!isset($headers['type'])) {
+            throw new MessageDecodingFailedException('Missing "type" header');
         }
 
-        $message = new LogEmoji($data['emoji']);
+        switch ($headers['type']) {
+            case 'emoji':
+                $envelope = $this->createLogEmojiEnvelope($data);
+                break;
+            default:
+                throw new MessageDecodingFailedException(sprintf('Invalid type "%s"', $headers['type']));
+        }
 
         // in case of redelivery, unserialize any stamps
         $stamps = [];
@@ -45,15 +52,12 @@ class ExternalJsonMessageSerializer implements SerializerInterface
             $stamps = unserialize($headers['stamps']);
         }
 
-        $envelope = new Envelope($message, $stamps);
-        $envelope->with(new BusNameStamp('command.bus')); // needed only if you need this to be sent through the non-default bus
-
-        return $envelope;
+        return $envelope->with(...$stamps);
     }
 
     /**
-     * This function is called when WRITEing to transport so it should not be needed since we onlye want to READ from it
-     * - but it's also used during 'retry' (redelivery) - during READing from transport - we have to implement it
+     * This function is called when WRITEing to transport so it should not be needed since we only want to READ from it
+     * - but it's also used during 'retry' (redelivery) - during READing from transport - so we have to implement it
      *
      * @return mixed[]
      *
@@ -64,10 +68,12 @@ class ExternalJsonMessageSerializer implements SerializerInterface
         $message = $envelope->getMessage();
 
         if (!($message instanceof LogEmoji)) {
-            throw new Exception('Not supported type');
+            throw new Exception('Unsupported message class');
         }
 
+        // recreate what the data originally looked like
         $data = ['emoji' => $message->emojiIndex];
+        $type = 'emoji';
 
         $allStamps = [];
         foreach ($envelope->all() as $stamps) {
@@ -78,7 +84,20 @@ class ExternalJsonMessageSerializer implements SerializerInterface
             'body' => json_encode($data),
             'headers' => [//store stamps as header - to be read in decode()
                 'stamps' => serialize($allStamps),
+                'type' => $type,
             ],
         ];
+    }
+
+    public function createLogEmojiEnvelope(array $data): Envelope
+    {
+        if (!isset($data['emoji'])) {
+            throw new MessageDecodingFailedException('Missing the emoji key!');
+        }
+
+        $message = new LogEmoji($data['emoji']);
+        $envelope = new Envelope($message);
+
+        return $envelope->with(new BusNameStamp('command.bus')); // needed only if you need this to be sent through the non-default bus
     }
 }
