@@ -15,7 +15,6 @@ use function array_merge;
 use function json_decode;
 use function json_encode;
 use function serialize;
-use function sprintf;
 use function unserialize;
 
 class ExternalJsonMessageSerializer implements SerializerInterface
@@ -32,6 +31,10 @@ class ExternalJsonMessageSerializer implements SerializerInterface
 
         if ($data === null) {
             throw new MessageDecodingFailedException('Invalid JSON');
+        }
+
+        if (!isset($data['emoji'])) {
+            throw new MessageDecodingFailedException('Missing the emoji key!');
         }
 
         $message = new LogEmoji($data['emoji']);

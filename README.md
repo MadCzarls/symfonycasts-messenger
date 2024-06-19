@@ -52,7 +52,7 @@ Sandboxes in previous Symfony versions are available at `legacy/symfony<VERSION>
 - [x] Chapter 44
 - [x] Chapter 45
 - [x] Chapter 46
-- [ ] Chapter 47
+- [x] Chapter 47
 - [ ] Chapter 48
 
  By default, includes xdebug extension and PHP_CodeSniffer for easy development and basic configuration for opcache for production. Includes instruction for setting it in PhpStorm.
