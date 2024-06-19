@@ -89,7 +89,10 @@ class ImagePostController extends AbstractController
             new AmqpStamp('normal'),
         ]);
 
-        dump($commandBus->dispatch($envelope));
+//        dump( // commented out after finishing Chapter 46 of Symfonycast
+            $commandBus->dispatch($envelope)
+//        ) // commented out after finishing Chapter 46 of Symfonycast
+        ;
 
         return $this->toJson($imagePost, 201);
     }
