@@ -7,7 +7,6 @@ namespace App\Controller;
 use App\Entity\ImagePost;
 use App\Message\Command\AddPonkaToImage;
 use App\Message\Command\DeleteImagePost;
-use App\Message\Command\LogEmoji;
 use App\Message\Query\GetTotalImageCount;
 use App\Photo\PhotoFileManager;
 use App\Repository\ImagePostRepository;
@@ -58,8 +57,10 @@ class ImagePostController extends AbstractController
         ValidatorInterface $validator,
         PhotoFileManager $photoManager,
         EntityManagerInterface $entityManager,
-        MessageBusInterface $messageBus
+        MessageBusInterface $commandBus
     ): JsonResponse {
+//        $commandBus->dispatch(new \App\Message\Command\LogEmoji(2)); // commented out after finishing Chapter 43 of Symfonycast
+
         /** @var UploadedFile $imageFile */
         $imageFile = $request->files->get('file');
 
@@ -82,11 +83,16 @@ class ImagePostController extends AbstractController
 
         $message = new AddPonkaToImage($imagePost->getId());
         $envelope = new Envelope($message, [
+//            new DelayStamp(500), // commented out after finishing Chapter 35 of Symfonycast
+//            new DelayStamp(60000), // commented out after finishing Chapter 38 of Symfonycast
             new DelayStamp(1000),
-            new AmqpStamp('priority_normal'),
+            new AmqpStamp('normal'),
         ]);
 
-        dump($messageBus->dispatch($envelope));
+//        dump( // commented out after finishing Chapter 46 of Symfonycast
+            $commandBus->dispatch($envelope)
+//        ) // commented out after finishing Chapter 46 of Symfonycast
+        ;
 
         return $this->toJson($imagePost, 201);
     }
@@ -94,10 +100,10 @@ class ImagePostController extends AbstractController
     #[Route('/api/images/{id}', methods: ['DELETE'])]
     public function delete(
         ImagePost $imagePost,
-        MessageBusInterface $messageBus
+        MessageBusInterface $commandBus
     ): Response {
         $message = new DeleteImagePost($imagePost->getId());
-        $messageBus->dispatch($message);
+        $commandBus->dispatch($message);
 
         return new Response(null, 204);
     }

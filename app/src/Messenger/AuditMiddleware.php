@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Middleware;
+namespace App\Messenger;
 
-use App\Stamp\UniqueIdStamp;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
@@ -14,18 +13,17 @@ use Symfony\Component\Messenger\Stamp\SentStamp;
 
 use function get_class;
 
-class AuditMiddleware implements MiddlewareInterface
+final class AuditMiddleware implements MiddlewareInterface
 {
-    private LoggerInterface $logger;
-
-    public function __construct(LoggerInterface $messengerAuditLogger)
+    public function __construct(
+        private LoggerInterface $messengerAuditLogger,
+    )
     {
-        $this->logger = $messengerAuditLogger;
     }
 
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {
-        if ($envelope->last(UniqueIdStamp::class) === null) {
+        if (null === $envelope->last(UniqueIdStamp::class)) {
             $envelope = $envelope->with(new UniqueIdStamp());
         }
 
@@ -33,21 +31,21 @@ class AuditMiddleware implements MiddlewareInterface
         $stamp = $envelope->last(UniqueIdStamp::class);
 
         $context = [
-            'id' => $stamp->getUniqueId(),
+            'id' => $stamp->uniqueId,
             'class' => get_class($envelope->getMessage()),
         ];
 
         $envelope = $stack->next()->handle($envelope, $stack);
 
-        if ($envelope->last(SentStamp::class)) {
+        if ($envelope->last(ReceivedStamp::class)) {
+            //ReceivedStamp means asynchronous handling - and that message is being received from (after previously being sent to) transport
+            $this->messengerAuditLogger->info('[{id}] Received {class}', $context);
+        } elseif ($envelope->last(SentStamp::class)) {
             //SentStamp means asynchronous handling - and that message is being sent to (to be later received and handled in) transport
-            $this->logger->info('[{id}] Sent to transport {class}', $context);
-        } elseif ($envelope->last(ReceivedStamp::class)) {
-            //ReceivedStamp means asynchronous handling - and that message is being received from (after previously sent to) transport
-            $this->logger->info('[{id}] Received from transport {class}', $context);
+            $this->messengerAuditLogger->info('[{id}] Sent {class}', $context);
         } else {
-            //no stamps mean synchronous handling (DeleteImagePostHandler) - no routing (transport) is used
-            $this->logger->info('[{id}] Handling sync {class}', $context);
+            //no stamps mean synchronous handling (e.g. in DeleteImagePostHandler) - no routing (transport) is used
+            $this->messengerAuditLogger->info('[{id}] Handling sync {class}', $context);
         }
 
         return $envelope;

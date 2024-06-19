@@ -6,13 +6,13 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Messenger\Transport\InMemoryTransport;
+use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 
 class ImagePostControllerTest extends WebTestCase
 {
     public function testCreate(): void
     {
-        $client = $this->createClient();
+        $client = static::createClient();
 
         $uploadedFile = new UploadedFile(
             __DIR__.'/../fixtures/cat1.jpg',

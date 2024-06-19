@@ -5,13 +5,19 @@ declare(strict_types=1);
 namespace App\MessageHandler\Query;
 
 use App\Message\Query\GetTotalImageCount;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use App\Repository\ImagePostRepository;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class GetTotalImageCountHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+readonly class GetTotalImageCountHandler
 {
+    public function __construct(
+        private ImagePostRepository $imagePostRepository,
+    ) {
+    }
+
     public function __invoke(GetTotalImageCount $getTotalImageCount): int
     {
-        //@TODO
-        return 50;
+        return $this->imagePostRepository->count([]);
     }
 }

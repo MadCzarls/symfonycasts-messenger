@@ -52,9 +52,9 @@ export default {
     },
     onDeleteImage(image) {
       axios
-          .delete(image['@id'])
+          .delete('/api/images/' + image['id'])
           .then(() => {
-            this.$delete(this.images, this.images.indexOf(image));
+            this.images.splice(this.images.indexOf(image), 1);
           })
     },
     fetchImagesData() {

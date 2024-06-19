@@ -6,8 +6,8 @@ namespace App\Photo;
 
 use App\Entity\ImagePost;
 use Exception;
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\Visibility;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -15,7 +15,6 @@ use function fclose;
 use function fopen;
 use function is_resource;
 use function pathinfo;
-use function sleep;
 use function sprintf;
 use function uniqid;
 
@@ -23,10 +22,10 @@ use const PATHINFO_FILENAME;
 
 class PhotoFileManager
 {
-    private FilesystemInterface $filesystem;
+    private FilesystemOperator $filesystem;
     private string $publicAssetBaseUrl;
 
-    public function __construct(FilesystemInterface $photoFilesystem, string $publicAssetBaseUrl)
+    public function __construct(FilesystemOperator $photoFilesystem, string $publicAssetBaseUrl)
     {
         $this->filesystem = $photoFilesystem;
         $this->publicAssetBaseUrl = $publicAssetBaseUrl;
@@ -42,15 +41,16 @@ class PhotoFileManager
 
         $newFilename = pathinfo($originalFilename, PATHINFO_FILENAME) . '-' . uniqid() . '.' . $file->guessExtension();
         $stream = fopen($file->getPathname(), 'r');
-        $result = $this->filesystem->writeStream(
-            $newFilename,
-            $stream,
-            [
-                'visibility' => AdapterInterface::VISIBILITY_PUBLIC,
-            ]
-        );
 
-        if ($result === false) {
+        try {
+            $this->filesystem->writeStream(
+                $newFilename,
+                $stream,
+                [
+                    'visibility' => Visibility::PUBLIC,
+                ]
+            );
+        } catch (\Throwable) {
             throw new Exception(sprintf('Could not write uploaded file "%s"', $newFilename));
         }
 
@@ -78,6 +78,6 @@ class PhotoFileManager
 
     public function update(string $filename, string $updatedContents): void
     {
-        $this->filesystem->update($filename, $updatedContents);
+        $this->filesystem->write($filename, $updatedContents);
     }
 }

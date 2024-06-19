@@ -1,9 +1,8 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 RUN apt-get update
 RUN apt-get install -y \
    apt-utils \
-   nginx \
-   nano
+   nginx
 
 RUN chown -Rf www-data:www-data /var/lib/nginx
 COPY nginx.conf /etc/nginx/nginx.conf
