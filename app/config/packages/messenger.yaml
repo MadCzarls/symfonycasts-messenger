@@ -4,6 +4,7 @@ framework:
         failure_transport: failed # Defining which transport will handle failed messages
         transports:
             external_messages:
+                serializer: App\Messenger\ExternalJsonMessageSerializer
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     auto_setup: false # should be set to 'false' since we want to imitate that we only READ from, not WRITE to this transport
