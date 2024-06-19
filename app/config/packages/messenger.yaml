@@ -3,10 +3,10 @@ framework:
         default_bus: command.bus
         failure_transport: failed # Defining which transport will handle failed messages
         transports:
-            external_messages:
-                serializer: messenger.transport.symfony_serializer
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                options:
+#            external_messages:
+#                serializer: messenger.transport.symfony_serializer
+#                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+#                options:
 #                    auto_setup: false # should be set to 'false' since we want to imitate that we only READ from, not WRITE to this transport
                                        # but since in AMQP we need to have 'retry' functionality - needed for READING - we have to have it set to 'true'
 #                    exchange: # should not be needed for READING from queue, but we have to set it up for retry functionality
@@ -17,6 +17,7 @@ framework:
 #                        messages_from_external:
 #                            binding_keys: [from_external_source]
             async:
+                serializer: messenger.transport.symfony_serializer
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 retry_strategy:
                     delay: 500

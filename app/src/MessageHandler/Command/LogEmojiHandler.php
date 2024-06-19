@@ -30,7 +30,7 @@ class LogEmojiHandler
 
     public function __invoke(LogEmoji $logEmoji): void
     {
-        $index = $logEmoji->getEmojiIndex();
+        $index = $logEmoji->emojiIndex;
 
         $emoji = self::$emojis[$index] ?? self::$emojis[0];
 

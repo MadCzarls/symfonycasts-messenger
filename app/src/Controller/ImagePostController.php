@@ -59,6 +59,8 @@ class ImagePostController extends AbstractController
         EntityManagerInterface $entityManager,
         MessageBusInterface $commandBus
     ): JsonResponse {
+//        $commandBus->dispatch(new \App\Message\Command\LogEmoji(2)); // commented out after finishing Chapter 43 of Symfonycast
+
         /** @var UploadedFile $imageFile */
         $imageFile = $request->files->get('file');
 
