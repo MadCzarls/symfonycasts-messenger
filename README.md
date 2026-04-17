@@ -99,6 +99,19 @@ php bin/console doctrine:migrations:migrate
 
 From this point forward, application should be available under `http://localhost:8050/`, where port `8050` is default defined in `compose.yaml`.
 
+### Troubleshooting: empty page on localhost:8050
+
+If browser shows empty page / `ERR_EMPTY_RESPONSE` and containers are running, check whether your VPN/firewall blocks local Docker port-forward traffic.
+
+Example (`Mullvad`): if `Local network sharing` is set to `block`, `http://localhost:8050/` may fail with connection reset.
+
+Enable local network access and retry:
+
+<pre>
+mullvad lan set allow
+curl -i http://127.0.0.1:8050/
+</pre>
+
 ### A note concerning Supervisor and Chapter 24
 
 To mimic production environment and to follow `Chapter 24` repository contains Supervisor - tool to control processes on your system.
